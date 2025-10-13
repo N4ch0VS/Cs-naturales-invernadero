@@ -1,0 +1,584 @@
+[
+    {
+        "id": "a53bc27d67226e0f",
+        "type": "tab",
+        "label": "ESP32 • HiveMQ • 3 Sensores",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3b0b7c84d41c64b3",
+        "type": "mqtt in",
+        "z": "a53bc27d67226e0f",
+        "name": "Datos ESP32",
+        "topic": "delfi/esp32/sensors",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "broker1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "2235c196aedb5e95"
+            ]
+        ]
+    },
+    {
+        "id": "2235c196aedb5e95",
+        "type": "json",
+        "z": "a53bc27d67226e0f",
+        "name": "JSON → obj",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 330,
+        "y": 120,
+        "wires": [
+            [
+                "2b0587f2df7bf239"
+            ]
+        ]
+    },
+    {
+        "id": "2b0587f2df7bf239",
+        "type": "function",
+        "z": "a53bc27d67226e0f",
+        "name": "Split 3 sensores",
+        "func": "let p = msg.payload || {}; let now = Date.now();\nlet m1 = {topic:\"S1\", payload: Number(p.s1_pct||0), ts: now};\nlet m2 = {topic:\"S2\", payload: Number(p.s2_pct||0), ts: now};\nlet m3 = {topic:\"S3\", payload: Number(p.s3_v||0),   ts: now};\nreturn [m1, m2, m3];",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 120,
+        "wires": [
+            [
+                "8041d8d7f70c4bb0",
+                "83047a07a46b72fd"
+            ],
+            [
+                "090ca62648dde99f",
+                "df2d8f10047e5362"
+            ],
+            [
+                "6f7e8f65ac8fd5c0",
+                "7cdaf0b085501938"
+            ]
+        ]
+    },
+    {
+        "id": "8041d8d7f70c4bb0",
+        "type": "ui_gauge",
+        "z": "a53bc27d67226e0f",
+        "name": "S1 • Luz",
+        "group": "6a645b821665ee87",
+        "order": 1,
+        "width": 6,
+        "height": 4,
+        "gtype": "donut",
+        "title": "Luz",
+        "label": "%",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "sensor-card",
+        "x": 760,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "83047a07a46b72fd",
+        "type": "ui_chart",
+        "z": "a53bc27d67226e0f",
+        "name": "Histórico S1",
+        "group": "grp_s1",
+        "order": 2,
+        "width": 12,
+        "height": 6,
+        "label": "Luz (%) – última hora",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 770,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "090ca62648dde99f",
+        "type": "ui_gauge",
+        "z": "a53bc27d67226e0f",
+        "name": "S2 • Humedad",
+        "group": "grp_s2",
+        "order": 1,
+        "width": 6,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Humedad",
+        "label": "%",
+        "format": "{{value | number:1}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "sensor-card",
+        "x": 780,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "df2d8f10047e5362",
+        "type": "ui_chart",
+        "z": "a53bc27d67226e0f",
+        "name": "Histórico S2",
+        "group": "grp_s2",
+        "order": 2,
+        "width": 12,
+        "height": 6,
+        "label": "Humedad (%) – última hora",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e"
+        ],
+        "outputs": 1,
+        "x": 770,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f7e8f65ac8fd5c0",
+        "type": "ui_gauge",
+        "z": "a53bc27d67226e0f",
+        "name": "S3 • Voltaje",
+        "group": "grp_s3",
+        "order": 1,
+        "width": 6,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Voltaje",
+        "label": "V",
+        "format": "{{value | number:2}}",
+        "min": 0,
+        "max": "3.3",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "sensor-card",
+        "x": 770,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7cdaf0b085501938",
+        "type": "ui_chart",
+        "z": "a53bc27d67226e0f",
+        "name": "Histórico S3",
+        "group": "grp_s3",
+        "order": 2,
+        "width": 12,
+        "height": 6,
+        "label": "Voltaje (V) – última hora",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "3.3",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e"
+        ],
+        "outputs": 1,
+        "x": 770,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5fae6dc8178cd8db",
+        "type": "mqtt in",
+        "z": "a53bc27d67226e0f",
+        "name": "Estado ESP32",
+        "topic": "delfi/esp32/status",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "broker1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "1cd89f044afa0432",
+                "c197a3b54a26a7d7"
+            ]
+        ]
+    },
+    {
+        "id": "3f5f88e2110aa089",
+        "type": "ui_template",
+        "z": "a53bc27d67226e0f",
+        "group": "grp_state",
+        "name": "Estilos personalizados",
+        "order": 2,
+        "width": 12,
+        "height": 1,
+        "format": "<style>\n  :root { --brand: #000080; --accent: #A68542; --soft:#DFDFE6; }\n  md-card, .sensor-card { border-radius: 16px !important; box-shadow: 0 8px 24px rgba(0,0,0,.12) !important; border: 1px solid var(--soft) !important; }\n  .nr-dashboard-theme md-toolbar, .nr-dashboard-theme .md-toolbar-tools { background: var(--brand) !important; color: #fff !important; }\n  .nr-dashboard-theme .nr-dashboard-cardtitle, .nr-dashboard-theme .nr-dashboard-text p, .nr-dashboard-theme .md-display-1, .nr-dashboard-theme .md-headline { font-family: Inter, Segoe UI, Roboto, Arial, sans-serif !important; letter-spacing: .2px; }\n  .nr-dashboard-theme .nr-dashboard-cardtitle { font-weight: 600; color: var(--brand); }\n  .nr-dashboard-gauge svg text { font-weight: 600; }\n  .nr-dashboard-chart .chart-legend { display:none; }\n</style>\n",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 390,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1cd89f044afa0432",
+        "type": "ui-text",
+        "z": "a53bc27d67226e0f",
+        "group": "04c1cb7ba0de578f",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "DATOS:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payloads",
+        "valueType": "msg",
+        "x": 360,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cf6172cec93317e7",
+        "type": "ui_text",
+        "z": "a53bc27d67226e0f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000",
+        "x": 650,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "c197a3b54a26a7d7",
+        "type": "ui-dropdown",
+        "z": "a53bc27d67226e0f",
+        "group": "04c1cb7ba0de578f",
+        "name": "",
+        "label": "Select Option:",
+        "tooltip": "",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "typeIsComboBox": true,
+        "msgTrigger": "onChange",
+        "x": 360,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "broker1",
+        "type": "mqtt-broker",
+        "name": "HiveMQ público",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6a645b821665ee87",
+        "type": "ui_group",
+        "name": "Datos luz",
+        "tab": "ui_tab",
+        "order": 2,
+        "disp": true,
+        "width": 12,
+        "collapse": false
+    },
+    {
+        "id": "grp_s1",
+        "type": "ui_group",
+        "name": "S1 Luz %",
+        "tab": "ed0d75ccf803148e",
+        "order": 2,
+        "disp": true,
+        "width": 12,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "grp_s2",
+        "type": "ui_group",
+        "name": "S2 Humedad %",
+        "tab": "ui_tab",
+        "order": 3,
+        "disp": true,
+        "width": 12,
+        "collapse": false
+    },
+    {
+        "id": "grp_s3",
+        "type": "ui_group",
+        "name": "S3 Voltaje",
+        "tab": "ui_tab",
+        "order": 4,
+        "disp": true,
+        "width": 12,
+        "collapse": false
+    },
+    {
+        "id": "grp_state",
+        "type": "ui_group",
+        "name": "Estado",
+        "tab": "ui_tab",
+        "order": 1,
+        "disp": true,
+        "width": 12,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "04c1cb7ba0de578f",
+        "type": "ui-group",
+        "name": "Datos ESP32",
+        "page": "30ab82070cf5aee4",
+        "width": "16",
+        "height": "3",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "ui_tab",
+        "type": "ui_tab",
+        "name": "IoT Lab",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "ed0d75ccf803148e",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "30ab82070cf5aee4",
+        "type": "ui-page",
+        "name": "Inicio",
+        "ui": "7287befc07492199",
+        "path": "/page3",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "ff61b5266d058b5e",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "true"
+    },
+    {
+        "id": "7287befc07492199",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "ff61b5266d058b5e",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#000000",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "0a81e9249cf44d17",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "@flowfuse/node-red-dashboard": "1.28.0"
+        }
+    }
+]
