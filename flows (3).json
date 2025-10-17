@@ -1,0 +1,123 @@
+[
+    {
+        "id": "1cd89f044afa0432",
+        "type": "ui-text",
+        "z": "a53bc27d67226e0f",
+        "group": "9efe2ae2fa5b6b21",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "data",
+        "label": "Datos",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 390,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "9efe2ae2fa5b6b21",
+        "type": "ui-group",
+        "name": "Altitud",
+        "page": "30ab82070cf5aee4",
+        "width": "4",
+        "height": 1,
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "30ab82070cf5aee4",
+        "type": "ui-page",
+        "name": "Inicio",
+        "ui": "7287befc07492199",
+        "path": "/page3",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "ff61b5266d058b5e",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "7287befc07492199",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "ff61b5266d058b5e",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#292929",
+            "primary": "#000000",
+            "bgPage": "#545454",
+            "groupBg": "#696969",
+            "groupOutline": "#949494"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "86bfb876c5b2d885",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.28.0"
+        }
+    }
+]
